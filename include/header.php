@@ -66,7 +66,7 @@ if (!isset($_SESSION)) {
             /* User Information */
             if (isset($_SESSION['user_first']) && isset($_SESSION['user_type'])) {
                 echo 'Welcome ' . $_SESSION['user_first'] . ' (' . $_SESSION['user_type'] . ')';
-                echo ' | <a href="../php/logout.php">Logout</a>';
+                echo ' | <a href="' . SRC_PATH . '/logout.php">Logout</a>';
             } else {
                 echo 'Not Logged In';
             }
