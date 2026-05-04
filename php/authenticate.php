@@ -60,10 +60,13 @@ if (isset($_POST['submit'])) {
         // Redirect based on user role
         if ($_SESSION['user_role'] == 1) {
           header("location: " . BASE_URL . "/admin");
+          exit();
         } elseif ($_SESSION['user_role'] == 2) {
-          header("location:" . BASE_URL . "/user");
+          header("location: " . BASE_URL . "/user");
+          exit();
         } elseif ($_SESSION['user_role'] == 3) {
-          header("location:" . BASE_URL . "/guest");
+          header("location: " . BASE_URL . "/guest");
+          exit();
         } else {
           $_SESSION['error'] = "Login Failed";
           
@@ -77,7 +80,7 @@ if (isset($_POST['submit'])) {
     exit();
   }
   // close the mysql connection
-  $select_user->close();
+  $select_users->close();
 } else {
   // Direct access without POST data
   header("location: " . SRC_PATH . "/logout.php"); 
