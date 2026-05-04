@@ -118,6 +118,54 @@ $create_credentials = $db_connection->prepare(
 $create_credentials->execute();
 $create_credentials->close();
 
+/* Begin project here */
+
+/* Customers */
+$create_customers = $db_connection->prepare(
+	"CREATE OR REPLACE TABLE Customers(
+        CustomerID  int          NOT NULL AUTO_INCREMENT,
+        FirstName   varchar(50)  NOT NULL,
+        LastName    varchar(50)  NOT NULL,
+        Email       varchar(100) NOT NULL UNIQUE,
+        Phone       varchar(20)  DEFAULT NULL,
+        Address     varchar(255) DEFAULT NULL,
+        City        varchar(100) DEFAULT NULL,
+        Country     varchar(100) NOT NULL DEFAULT 'USA',
+        CreatedAt   datetime     NOT NULL DEFAULT NOW(),
+        PRIMARY KEY(CustomerID));");
+$create_customers->execute();
+$create_customers->close();
+
+/* Seed Customers */
+$insert_customers = $db_connection->prepare(
+	"INSERT INTO Customers
+		(FirstName, LastName, Email, Phone, Address, City, Country) VALUES(?,?,?,?,?,?,?);");
+$insert_customers->bind_param("sssssss", $cFirstName, $cLastName, $cEmail, $cPhone, $cAddress, $cCity, $cCountry);
+
+$cFirstName = "John";  $cLastName = "Johnson";  $cEmail = "john.johnson@email.com";
+$cPhone = "203-555-0101"; $cAddress = "12 Elm St"; $cCity = "New Haven"; $cCountry = "USA";
+$insert_customers->execute();
+
+$cFirstName = "Robert";    $cLastName = "Bobbert"; $cEmail = "robert.bobbert@email.com";
+$cPhone = "860-555-0202"; $cAddress = "45 Oak Ave"; $cCity = "Hartford"; $cCountry = "USA";
+$insert_customers->execute();
+
+$cFirstName = "Will";  $cLastName = "Williams"; $cEmail = "will.w@email.com";
+$cPhone = "617-555-0303"; $cAddress = "8 Maple Rd"; $cCity = "Boston"; $cCountry = "USA";
+$insert_customers->execute();
+
+$cFirstName = "David";  $cLastName = "Kim";      $cEmail = "d.kim@email.com";
+$cPhone = null; $cAddress = "99 Pine Blvd"; $cCity = "Stamford"; $cCountry = "USA";
+$insert_customers->execute();
+
+$cFirstName = "Eva";    $cLastName = "Rossi";    $cEmail = "eva.rossi@email.com";
+$cPhone = "39-06-555-04"; $cAddress = "Via Roma 7"; $cCity = "Rome"; $cCountry = "Italy";
+$insert_customers->execute();
+
+$insert_customers->close();
+
+
+
 /* Status Display */
 echo nl2br("The database tables were successfully created.\r\n");
 
@@ -190,6 +238,19 @@ $post_code = 67890;
 $updated = date("Y-m-d H:i:s");
 $insert_contacts->execute();
 
+$contact_id = 4;
+$last_name = "Palazzo";
+$first_name = "Brendan";
+$email = "palazzob1@southernct.edu";
+$phone = "777-777-7777";
+$street_1 = "7 Huge Mansion Rd";
+$street_2 = "";
+$city = "Orange";
+$state_code = "CT";
+$post_code = 06477;
+$updated = date("Y-m-d H:i:s");
+$insert_contacts->execute();
+
 $insert_contacts->close();
 
 /* Users */
@@ -212,6 +273,12 @@ $insert_users->execute();
 $user_id = 3;
 $role_id = 3;
 $contact_id = 3;
+$creation_date = date("Y-m-d H:i:s");
+$insert_users->execute();
+
+$user_id = 4;
+$role_id = 1;
+$contact_id = 4;
 $creation_date = date("Y-m-d H:i:s");
 $insert_users->execute();
 
@@ -242,8 +309,12 @@ $password_salted = crypt("SCSU2026", $salt);
 //$password_salted = password_hash("charlie123", PASSWORD_DEFAULT);
 $insert_credentials->execute();
 
-$insert_credentials->close();
+$user_id = 4;
+$username = "brendan";
+$password_salted = crypt("palazzo", $salt);
+$insert_credentials->execute();
 
+$insert_credentials->close();
 
 
 
